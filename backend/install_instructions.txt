@@ -1,4 +1,11 @@
+Make sure you have python, build-essential, etc
+
 Install conan (using pip): https://docs.conan.io/2/installation.html
 I had to install with sudo pip install conan
 
-Run conan install . --output_folder=cmake --build=missing
+Run (if you haven't already): conan profile detect --force
+Run: conan install . --output-folder=cmake --build=missing
+
+Then do: cmake .
+
+Then do: everything 
