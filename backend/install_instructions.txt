@@ -1,0 +1,4 @@
+Install conan (using pip): https://docs.conan.io/2/installation.html
+I had to install with sudo pip install conan
+
+Run conan install . --output_folder=cmake --build=missing
