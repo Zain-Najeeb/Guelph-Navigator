@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import "./wheretoBar.css";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState("");
-  const buildings = [
+  const locations = [
     { name: "Rozanski" },
     { name: "University Centre" },
     { name: "Mackinnon" }
@@ -12,34 +13,39 @@ const SearchBar = () => {
     setSearchInput(e.target.value);
   };
 
-  const filteredBuildings = buildings.filter((building) => {
-    return building.name.match(searchInput);
+  const handleLocationClick = (name) => {
+    setSearchInput(name);
+  };
+
+  const filteredLocations = locations.filter((location) => {
+    return (
+      searchInput !== "" &&
+      location.name.toLowerCase().includes(searchInput.toLowerCase())
+    );
   });
 
   return (
-    <div>
+    <div className="search-container">
       <input
         type="text"
-        placeholder="Find a building"
+        placeholder="Find a location"
         onChange={handleChange}
         value={searchInput}
+        className="search-input"
       />
-      <table>
-        <thead>
-          <tr>
-            <th>Building</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredBuildings.map((building, index) => {
-            return (
-              <tr key={index}>
-                <td>{building.name}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ul className="search-results">
+        {filteredLocations.map((location, index) => {
+          return (
+            <li
+              key={index}
+              className="search-result-item"
+              onClick={() => handleLocationClick(location.name)}
+            >
+              {location.name}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

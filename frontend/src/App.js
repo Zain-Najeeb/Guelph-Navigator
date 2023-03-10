@@ -4,7 +4,11 @@ import SearchBar from './components/wheretoBar';
 function App() {
   return (
     <div className="App">
-        <SearchBar/> 
+      <div className="SearchBarsContainor">  
+        <SearchBar/>
+        <div className="Space" /> 
+        <SearchBar/>
+       </div>
     </div>
   );
 }
