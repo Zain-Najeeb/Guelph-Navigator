@@ -6,6 +6,17 @@ I had to install with sudo pip install conan
 Run (if you haven't already): conan profile detect --force
 Run: conan install . --output-folder=cmake --build=missing
 
+[NEW 2023-03-09]
+Install libneo4j dev stuff because why not:
+Run: sudo apt-get install neo4j-client libneo4j-client-dev
+Run: sudo apt-get install neo4j=1:3.5.35
+Run to start neo4j: sudo neo4j start
+Run to setup the password: cypher-shell
+Username = neo4j
+Password = neo4j
+CALL dbms.changePassword('newPassword');
+
+
 Then do: cmake .
 
 Then do: everything 
