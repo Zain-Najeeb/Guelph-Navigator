@@ -1,51 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./wheretoBar.css";
 
-const SearchBar = () => {
+const SearchBar = ({input}) => {
   const [searchInput, setSearchInput] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isTyping, setIsTyping] = useState(false);
   const locations = [
-    { name: "Rozanski" },
+    { name: "Rozanski Hall" },
     { name: "University Centre" },
-    { name: "Mackinnon" }
+    { name: "Mackinnon" }, 
+    { name: "Athletics Centre"}, 
+    { name: "Macnaughton"}, 
+
   ];
 
+  const searchContainerRef = useRef();
   const handleChange = (e) => {
     setSearchInput(e.target.value);
+    setShowResults(true);
+    setIsTyping(true);
   };
 
-  const handleLocationClick = (name) => {
-    setSearchInput(name);
+  const handleSelect = (location) => {
+    if ( location.name === "" && searchInput === "") {
+      setShowResults(true);
+    } else {
+      setSearchInput(location.name);
+      setShowResults(false);
+    }
   };
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 9 && showResults) {
+      e.preventDefault();
+      setSelectedIndex((selectedIndex + 1) % filteredLocations.length);
+    } else if (e.keyCode === 13 && showResults && selectedIndex !== -1) {
+      handleSelect(filteredLocations[selectedIndex]);
+      setSelectedIndex(-1);
+    }
+    setIsTyping(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowResults(false);
+        setSelectedIndex(-1);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+
+    };
+  }, [searchContainerRef]);
 
   const filteredLocations = locations.filter((location) => {
     return (
-      searchInput !== "" &&
-      location.name.toLowerCase().includes(searchInput.toLowerCase())
+      (searchInput === '' && showResults) || 
+      (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase()))
     );
   });
 
   return (
-    <div className="search-container">
+    <div className="search-container" ref={searchContainerRef}>
       <input
         type="text"
-        placeholder="Find a location"
+        placeholder= {input}  
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onBlur={() => setIsTyping(false)}
         value={searchInput}
-        className="search-input"
+        className={`search-input${isTyping ? ' typing' : ''}`}
       />
-      <ul className="search-results">
-        {filteredLocations.map((location, index) => {
-          return (
-            <li
+      {showResults && (
+        <ul className="search-results">
+          {filteredLocations.map((location, index) => {
+            return (
+              <li
               key={index}
-              className="search-result-item"
-              onClick={() => handleLocationClick(location.name)}
-            >
-              {location.name}
-            </li>
-          );
-        })}
-      </ul>
+              className={selectedIndex === index ? "selected" : ""}
+              onClick={() => handleSelect(location)}
+              >
+                {location.name}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };

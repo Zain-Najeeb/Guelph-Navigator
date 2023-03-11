@@ -5,9 +5,9 @@ function App() {
   return (
     <div className="App">
       <div className="SearchBarsContainor">  
-        <SearchBar/>
+        <SearchBar input = "Current Location, (Default is the Cannon)" />
         <div className="Space" /> 
-        <SearchBar/>
+        <SearchBar input = "Find a location"/>
        </div>
     </div>
   );

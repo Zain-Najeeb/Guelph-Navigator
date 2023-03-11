@@ -3,6 +3,7 @@
     display: flex;
     align-items: center; 
     justify-content: center; 
+    transform: translateX(-25px);
 
   }
   .SearchBar {
@@ -12,4 +13,10 @@
   .Space {
     width: 75px; 
   }
-
+  body {
+    background-image: url("../public/images/bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+  }
+  
