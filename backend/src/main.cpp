@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <neo4j-client.h>
 #include "crow.h"
-
 #include "main.hpp"
-
 #include "./routes/Locations/Locations.hpp"
 
 
@@ -44,17 +42,11 @@ int main() {
         neo4j_client_cleanup();
         return EXIT_FAILURE;
     }
-
     crow::SimpleApp app;
-
     CROW_ROUTE(app, "/")([](){
         return "Hello world";
     });
-
-    CROW_ROUTE(app, "/API/Locations/Get")
-        .methods("GET"_method)
-        (routes_Locations_Get);
-
+    CROW_ROUTE(app,"/API/Locations_new/Get").methods("GET"_method)([](const crow::request& req , crow::response& res) {routes_Locations_Get(req, res);});
     app.port(18080).multithreaded().run();
 
     printf("Hello!\n");
