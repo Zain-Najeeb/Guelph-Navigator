@@ -31,12 +31,19 @@ const SearchBar = ({input}) => {
     }
   };
   const handleKeyDown = (e) => {
-    if (e.keyCode === 9 && showResults) {
+    if (showResults && (e.keyCode === 9 || e.keyCode === 40)) {
       e.preventDefault();
       setSelectedIndex((selectedIndex + 1) % filteredLocations.length);
     } else if (e.keyCode === 13 && showResults && selectedIndex !== -1) {
       handleSelect(filteredLocations[selectedIndex]);
       setSelectedIndex(-1);
+    } else if (e.keyCode === 38 && showResults) {
+      e.preventDefault();
+      if (selectedIndex === 0) {
+        setSelectedIndex(filteredLocations.length - 1); 
+      } else {
+      setSelectedIndex((selectedIndex - 1) );
+      }
     }
     setIsTyping(true);
   };
