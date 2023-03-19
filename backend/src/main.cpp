@@ -43,13 +43,11 @@ int main() {
         return EXIT_FAILURE;
     }
     crow::SimpleApp app;
-    CROW_ROUTE(app, "/")([](){
-        return "Hello world";
-    });
-    CROW_ROUTE(app,"/API/Locations_new/Get").methods("GET"_method)([](const crow::request& req , crow::response& res) {routes_Locations_Get(req, res);});
-    app.port(18080).multithreaded().run();
 
-    printf("Hello!\n");
+
+    CROW_ROUTE(app,"/API/Locations_new/Get").methods("GET"_method)([](const crow::request& req , crow::response& res) {routes_Locations_Get(req, res);});
+    app.port(3000).multithreaded().run(); //Use 3000, as React uses 3000
+
     neo4j_close_results(results);
     neo4j_close(connection);
     neo4j_client_cleanup();
