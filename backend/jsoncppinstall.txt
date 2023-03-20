@@ -1,0 +1,9 @@
+installing json cpp:
+Clone this repo
+https://github.com/open-source-parsers/jsoncpp
+Open the directory in terminal. Run these commands:
+mkdir build
+cd build
+cmake ..
+make
+sudo make install

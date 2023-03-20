@@ -44,6 +44,7 @@ int main() {
     }
     crow::SimpleApp app;
 
+    CROW_ROUTE(app, "/API/json/recieve").methods("GET"_method, "POST"_method)([](const crow::request& req, crow::response& res){recieveJson(req, res);});
 
     CROW_ROUTE(app,"/API/Locations_new/Get").methods("GET"_method)([](const crow::request& req , crow::response& res) {routes_Locations_Get(req, res);});
     app.port(3000).multithreaded().run(); //Use 3000, as React uses 3000
