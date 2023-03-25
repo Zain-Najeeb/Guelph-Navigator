@@ -14,9 +14,16 @@
     width: 75px; 
   }
   body {
-    background-image: url("../public/images/bg.png");
+    background-image: url("./images/bg.png");
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
   }
-  
+  .LogoContainer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+  }

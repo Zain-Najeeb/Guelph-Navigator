@@ -11,9 +11,11 @@ const axios = require('axios');
 //   console.error(error);
 // });
 
-const postJson= (loc) => {
+const postJson= (cords, name) => {
   axios.post("http://127.0.0.1:3000/API/json/recieve", {
-    Location: loc,
+    //json data go here
+    Name: name, 
+    Location: cords,
   })
   .then(response => {
     console.log(response.data);
@@ -22,8 +24,5 @@ const postJson= (loc) => {
     console.error(error);
   });
 }
-
-
 postJson("The cannon")
-
 
