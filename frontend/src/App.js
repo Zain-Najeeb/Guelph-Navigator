@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import SearchBar from './components/wheretoBar';
+import './images/guelphlogo.png'
 function App() {
   return (
     <div className="App">
-      <div className="LogoConatainor"> 
-        <img src= "./images/guelphlogo.png" alt ="Logo"/> 
+      <div className="LogoContainer"> 
+      <img src={require('./images/guelphlogo.png')} alt ="Guelph-logo"/>
       </div>
       <div className="SearchBarsContainor">  
         <SearchBar input = "Current Location, (Default is the Cannon)" />
