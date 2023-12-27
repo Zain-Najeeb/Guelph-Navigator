@@ -23,7 +23,15 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
-    width: 100%;
-  }
+    width: 100%; /* Adjust width as needed */
+}
+
+.LogoContainer img {
+    width: 80%; /* Set the image width to 100% of the container */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* or any other value based on your preference */
+    display: block;
+    margin: auto;
+}
