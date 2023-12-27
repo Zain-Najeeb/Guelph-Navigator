@@ -1,25 +1,29 @@
-//var builder = WebApplication.CreateBuilder(args);
+using Neo4j.Driver;
+using backend.interactions;
+namespace backend;
 
-// Add services to the container.
-
-//builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-
-//var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment()) {
-//	app.UseSwagger();
-//	app.UseSwaggerUI();
-//}
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
-
-//app.MapControllers();
-
-//app.Run();
-
+public class Program {
+	private static IDriver _driver;
+	public static async Task Main(string[] args) {
+		
+		_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("ZainNajeeb", "nadeem123"));
+		await add(); 
+	}
+	
+	//adding a node..
+	public static async Task add() {
+		string test = "tfddfest";
+		string jsonString = @"
+		{	
+		    ""content"": {
+		        ""category"": ""room"",
+		        ""level"": 4,
+		        ""spot"": {
+		            ""name"": ""zain"",
+		            ""location"": { ""x"": 100, ""y"": 100 }
+		        }
+		    }
+		}";
+		await AddNode.add(_driver, test ,jsonString);
+	}
+}

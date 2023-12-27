@@ -9,6 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4"/>
         <PackageReference Include="Neo4j.Driver" Version="5.15.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
