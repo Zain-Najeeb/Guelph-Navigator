@@ -1,5 +1,6 @@
 using Neo4j.Driver;
 using backend.interactions;
+using backend.nodeProperties;
 namespace backend;
 
 public class Program {
@@ -9,25 +10,18 @@ public class Program {
 		_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("ZainNajeeb", "nadeem123"));
 	//	await add();
 	//	await DeleteNode.delete(_driver, "tfddfest"); 
-	await add("test1");
-	await add("test2");
-	await addRelationship("test1", "test2"); 
+//	await add("example");
+//	await add("test2");
+//	await addRelationship("test1", "test2"); 
 	}
 	//adding a node..
-	public static async Task add(string name) {
-		string test = name;
-		string jsonString = @"
-		{	
-		    ""content"": {
-		        ""category"": ""room"",
-		        ""level"": 4,
-		        ""spot"": {
-		            ""name"": ""zain"",
-		            ""location"": { ""x"": 100, ""y"": 100 }
-		        }
-		    }
-		}";
-		await AddNode.add(_driver, test ,jsonString);
+	public static async Task addSpot(string name) {
+		Spot spot = new Spot();
+		spot.positionX = 0;
+		spot.positionY = 0; 
+		spot.photosphereUrl = "test";
+		spot.name = name; 
+		await AddNode.addSpot(_driver, spot);
 	}
 	//deleting a node.. 
 	public static async Task delete(string name) {
