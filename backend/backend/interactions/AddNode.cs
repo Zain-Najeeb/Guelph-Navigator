@@ -13,6 +13,14 @@ public class AddNode {
 	
 		}
 	}
-	
-	
+
+	public static async Task addRS(IDriver _driver, string nodeA, string nodeB) {
+		await using (var session = _driver.AsyncSession() ?? throw new ArgumentNullException("_driver.AsyncSession()")) {
+			var query = "MATCH (a:Node {name: $nodeA}), (b:Node {name: $nodeB}) CREATE (a)-[:RELATIONSHIP_TYPE]->(b)";
+			var parameters = new { nodeA, nodeB };
+
+			await session.RunAsync(query, parameters);
+		}
+
+	}
 }
