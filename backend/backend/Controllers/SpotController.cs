@@ -24,9 +24,9 @@ public class SpotController : ControllerBase {
 		await using var session = driver.AsyncSession();
 
 		var spot = await session.ExecuteReadAsync(async tx => {
-			var result = await tx.RunAsync("MATCH (n:SPOT) WHERE ID(n) = $id RETURN n{.*, id:$id}", new { id });
+			var result = await tx.RunAsync("MATCH (spot:SPOT) WHERE ID(spot) = $id RETURN spot{.*, id:$id}", new { id });
 
-			return await result.SelectNamed("n").Select(record => new Spot(
+			return await result.SelectNamed("spot").Select(record => new Spot(
 				id, record["name"].As<string>(), record["url"].As<string>(), 0, 0
 			)).FirstOrDefaultAsync();
 		});
