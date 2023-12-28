@@ -1,8 +1,3 @@
 ﻿namespace backend.nodeProperties;
 
-public class Spot {
-	public int positionX { get; set; }
-	public int positionY { get; set; }
-	public string name { get; set;}
-	public string photosphereUrl { get; set; }
-}
+public record Spot(int Id, string Name, string PhotosphereUrl, int PositionX, int PositionY);

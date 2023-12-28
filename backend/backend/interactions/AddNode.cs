@@ -11,10 +11,10 @@ public class AddNode {
 			var query = "CREATE (n:Node {positionX: $positionX, positionY: $positionY, name: $name, photosphereUrl: $photosphereUrl})";
 			var parameters = new
 			{
-				content.positionX,
-				content.positionY,
-				content.name,
-				content.photosphereUrl
+				positionX = content.PositionX,
+				positionY = content.PositionY,
+				name = content.Name,
+				photosphereUrl = content.PhotosphereUrl
 			};
 			await seesion.RunAsync(query, parameters);
 	
