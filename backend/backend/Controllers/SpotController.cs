@@ -1,8 +1,6 @@
 ﻿using backend.nodeProperties;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
 using Neo4j.Driver;
-using System.Linq;
 using backend.Utilities;
 
 namespace backend.Controllers; 
@@ -24,10 +22,12 @@ public class SpotController : ControllerBase {
 		await using var session = driver.AsyncSession();
 
 		var spot = await session.ExecuteReadAsync(async tx => {
-			var result = await tx.RunAsync("MATCH (spot:SPOT) WHERE ID(spot) = $id RETURN spot{.*, id:$id}", new { id });
-
-			return await result.SelectNamed("spot").Select(record => new Spot(
-				id, record["name"].As<string>(), record["url"].As<string>(), 0, 0
+			var result = await tx.RunAsync(@"
+			MATCH (spot:SPOT) WHERE ID(spot) = $id
+			MATCH (spot)-[relationships]->(matches)
+			RETURN spot, collect(relationships) AS relationships, collect(matches) AS matches", new { id });
+			return await result.SelectNamed("spot").Select(  record => new Spot(
+				id, record[0]["name"], record[0]["url"], 0, 0, record[1],   record[2]
 			)).FirstOrDefaultAsync();
 		});
 

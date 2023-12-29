@@ -1,4 +1,6 @@
-﻿using Neo4j.Driver;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Neo4j.Driver;
 
 namespace backend.Utilities; 
 
@@ -11,7 +13,23 @@ public static class Neo4jResultUtils {
 	/// <param name="cursor"></param>
 	/// <param name="n"></param>
 	/// <returns></returns>
-	public static IAsyncEnumerable<Dictionary<string, object>> SelectNamed(this IResultCursor cursor, string n) {
-		return cursor.Select(record => (Dictionary<string, object>)record[n]);
+	
+	
+	public static IAsyncEnumerable<List<dynamic>> SelectNamed(this IResultCursor cursor, string n) {
+		return cursor.Select(record => {
+			var node = (INode)record[n];
+	
+			var connectedNodes = ((IEnumerable<object>)record["matches"]).Cast<INode>();
+			var relationship =((IEnumerable<object>)record["relationships"]).Cast<IRelationship>();
+			Dictionary<string, object> dictNode = node.Properties.ToDictionary(entry => entry.Key , entry => entry.Value);
+			List<Dictionary<string, object>> dictConnected = connectedNodes.Select(con => con.Properties.ToDictionary(entry => entry.Key, entry => entry.Value)).ToList(); 
+			List<Dictionary<string, object>> dictRelationship = relationship.Select(rel => rel.Properties.ToDictionary(entry => entry.Key, entry => entry.Value)).ToList();
+			List<dynamic> content = new List<dynamic> {
+				dictNode,
+				dictConnected,
+				dictRelationship
+			};
+			return content; 
+		});
 	}
 }
