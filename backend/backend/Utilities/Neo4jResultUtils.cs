@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using backend.nodeProperties;
 using Neo4j.Driver;
 
 namespace backend.Utilities; 
@@ -15,21 +16,18 @@ public static class Neo4jResultUtils {
 	/// <returns></returns>
 	
 	
-	public static IAsyncEnumerable<List<dynamic>> SelectNamed(this IResultCursor cursor, string n) {
-		return cursor.Select(record => {
-			var node = (INode)record[n];
-	
-			var connectedNodes = ((IEnumerable<object>)record["matches"]).Cast<INode>();
-			var relationship =((IEnumerable<object>)record["relationships"]).Cast<IRelationship>();
-			Dictionary<string, object> dictNode = node.Properties.ToDictionary(entry => entry.Key , entry => entry.Value);
-			List<Dictionary<string, object>> dictConnected = connectedNodes.Select(con => con.Properties.ToDictionary(entry => entry.Key, entry => entry.Value)).ToList(); 
-			List<Dictionary<string, object>> dictRelationship = relationship.Select(rel => rel.Properties.ToDictionary(entry => entry.Key, entry => entry.Value)).ToList();
-			List<dynamic> content = new List<dynamic> {
-				dictNode,
-				dictConnected,
-				dictRelationship
-			};
-			return content; 
-		});
+	public static IEnumerable<Dictionary<string, object>> SelectNamed(this IEnumerable<IRecord> records, string n) {
+		return records.Select(record => (Dictionary<string, object>)record[n]);
+	}
+
+	public static Spot SpotFromDictionary(Dictionary<string, object> dict) {
+		return new Spot(dict["id"].As<int>(), dict["name"].As<string>(), dict["url"].As<string>(), 0, 0,
+			dict.ContainsKey("connectedSpots") ? 
+				dict["connectedSpots"].As<List<Dictionary<string, object>>>().Select(SpotConnectionFromDictionary).ToArray() : 
+				Array.Empty<SpotConnection>());
+	}
+
+	static SpotConnection SpotConnectionFromDictionary(Dictionary<string, object> dict) {
+		return new SpotConnection(SpotFromDictionary(dict["endSpot"].As<Dictionary<string, object>>()), dict["weight"].As<int>());
 	}
 }

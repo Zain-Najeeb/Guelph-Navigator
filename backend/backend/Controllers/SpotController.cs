@@ -22,13 +22,12 @@ public class SpotController : ControllerBase {
 		await using var session = driver.AsyncSession();
 
 		var spot = await session.ExecuteReadAsync(async tx => {
-			var result = await tx.RunAsync(@"
-			MATCH (spot:SPOT) WHERE ID(spot) = $id
-			MATCH (spot)-[relationships]->(matches)
-			RETURN spot, collect(relationships) AS relationships, collect(matches) AS matches", new { id });
-			return await result.SelectNamed("spot").Select(  record => new Spot(
-				id, record[0]["name"], record[0]["url"], 0, 0, record[1],   record[2]
-			)).FirstOrDefaultAsync();
+			var result = await (await tx.RunAsync(@"
+				MATCH (spot:SPOT) WHERE id(spot) = $id
+				OPTIONAL MATCH (spot)-[r]->(relatedSpot:SPOT)
+				WITH spot{.*, id:ID(spot)}, COLLECT(r{.*, endSpot:relatedSpot{.*, id:ID(relatedSpot)}}) AS relationships
+				RETURN spot{.*, connectedSpots:relationships} AS result", new { id })).ToListAsync();
+			return result.SelectNamed("result").Select(Neo4jResultUtils.SpotFromDictionary).FirstOrDefault();
 		});
 
 		if (spot == null) {
