@@ -2,15 +2,37 @@ import React, {useState} from 'react';
 import './App.css';
 import SearchBar from './components/wheretoBar';
 import SquareButton from './components/squareButton';
+import {locations} from './index'; 
+
+const handleButtoPress = (currentLocation, findLocation) => {
+  const lowerCaseCurrentLocation = currentLocation.toLowerCase();
+  const lowerCaseFindLocation = findLocation.toLowerCase();
+
+  if (findLocation === currentLocation) {
+     return "same"; 
+  }
+  const currentLocationExists = locations.some(location => location.name.toLowerCase() === lowerCaseCurrentLocation);
+  const findLocationExists = locations.some(location => location.name.toLowerCase() === lowerCaseFindLocation);
+
+  if (currentLocationExists && findLocationExists) {
+    return "valid";
+  }
+  if (currentLocation.trim().length === 0 || findLocation.trim().length === 0) {
+    return "empty"; 
+  }
+  return "invalid"; 
+}
+
 function App() {
   const [currentLocation, setCurrentLocation] = useState('Current Location, (Default is the Cannon)');
   const [findLocation, setFindLocation] = useState('Find a location');
   const [showError, setShowError] = useState(false);
   const handleSearch = () => {
-    if (currentLocation.trim() === '' || findLocation.trim() === '') {
-      setShowError(true);
+    const handler = handleButtoPress(currentLocation, findLocation); 
+    if (handler === "valid") {
+      setShowError(false); 
     } else {
-      setShowError(false);
+      setShowError(true) ///needs to be changed later too lazy rn
     }
   };
   return (
@@ -28,7 +50,7 @@ function App() {
           <SquareButton onClick={handleSearch} />
         </div>
         <div className = "ErrorMessage"> 
-          {showError && <p className="ErrorText"> "dsfs" </p>}
+          {showError && <p className="ErrorText"> {currentLocation} {findLocation} </p>}
         </div>
       </div> 
 

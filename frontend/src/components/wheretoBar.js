@@ -28,6 +28,7 @@ const SearchBar = ({ input, onChange }) => {
       setShowResults(true);
     } else {
       setSearchInput(location.name);
+      onChange(location.name); 
       setShowResults(false);
     }
   };
