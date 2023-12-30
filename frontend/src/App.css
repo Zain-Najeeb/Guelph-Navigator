@@ -35,3 +35,23 @@
     display: block;
     margin: auto;
 }
+.ErrorMessage {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 65%;
+  width: 95%;
+}
+.ErrorMessage p {
+  color: red; 
+  font-size: 14px; 
+}
+
+
+.SquareButtonContainor {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 60%;
+  width: 95%;
+}
