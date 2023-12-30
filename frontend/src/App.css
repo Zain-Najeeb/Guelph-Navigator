@@ -11,7 +11,7 @@
   }
   
   .Space {
-    width: 75px; 
+    width: 100px; 
   }
   body {
     background-image: url("./images/bg.png");
@@ -53,5 +53,5 @@
   justify-content: center;
   position: absolute;
   top: 60%;
-  width: 95%;
-}
+  width: 94.5%;
+} 

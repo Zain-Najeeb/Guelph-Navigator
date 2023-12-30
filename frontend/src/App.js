@@ -3,7 +3,7 @@ import './App.css';
 import SearchBar from './components/wheretoBar';
 import SquareButton from './components/squareButton';
 import {locations} from './index'; 
-
+import {getJson} from './connect/index'
 const handleButtoPress = (currentLocation, findLocation) => {
   const lowerCaseCurrentLocation = currentLocation.toLowerCase();
   const lowerCaseFindLocation = findLocation.toLowerCase();
@@ -30,7 +30,8 @@ function App() {
   const handleSearch = () => {
     const handler = handleButtoPress(currentLocation, findLocation); 
     if (handler === "valid") {
-      setShowError(false); 
+      setShowError(false);
+      getJson();  
     } else {
       setShowError(true) ///needs to be changed later too lazy rn
     }
