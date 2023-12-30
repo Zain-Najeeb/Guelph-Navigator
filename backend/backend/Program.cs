@@ -14,14 +14,20 @@ public class Program {
 		// Add services to the container.
 
 		builder.Services.AddSingleton<IDriver>(_driver);
-
+		builder.Services.AddCors(options => {
+			options.AddPolicy("AllowSpecificOrigin",
+				builder => builder.WithOrigins("http://localhost:3000")
+					.AllowAnyHeader()
+					.AllowAnyMethod());
+		});
+		
 		builder.Services.AddControllers();
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen();
 
 		var app = builder.Build();
-
+		app.UseCors("AllowSpecificOrigin");
 		// Configure the HTTP request pipeline.
 		if (app.Environment.IsDevelopment()) {
 			app.UseSwagger();
