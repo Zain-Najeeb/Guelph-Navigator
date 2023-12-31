@@ -1,0 +1,24 @@
+/* index.css */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Set a specific height for the wrapper, adjust as needed */
+  }
+  
+  .map-container {
+    flex: 1;
+    position: relative;
+  }
+  
+  .Map {
+    position: relative;
+  }
+  
+  .NavBars {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    left: 10px; /* Adjust the left position as needed */
+    z-index: 1; /* Ensure the search bar is above the map */
+  }
+  

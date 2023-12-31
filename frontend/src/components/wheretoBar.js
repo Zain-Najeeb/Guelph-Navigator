@@ -1,19 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import './wheretoBar.css';
 
-const SearchBar = ({ input, onChange }) => {
+import { locations } from './../index';
+
+const MAX_RESULTS = 6;
+
+export const SearchBar = ({ input, onChange }) => {
   const [searchInput, setSearchInput] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isTyping, setIsTyping] = useState(false);
-  const locations = [
-    { name: "Rozanski Hall" },
-    { name: "University Centre" },
-    { name: "Mackinnon" },
-    { name: "Athletics Centre" },
-    { name: "Macnaughton" },
-  ];
-
   const searchContainerRef = useRef();
 
   const handleChange = (e) => {
@@ -64,12 +60,12 @@ const SearchBar = ({ input, onChange }) => {
     };
   }, [searchContainerRef]);
 
-  const filteredLocations = locations.filter((location) => {
-    return (
+  const filteredLocations = locations
+    .filter((location) => (
       (searchInput === '' && showResults) ||
       (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase()))
-    );
-  });
+    ))
+    .slice(0, MAX_RESULTS);
 
   return (
     <div className="search-container" ref={searchContainerRef}>
@@ -84,17 +80,15 @@ const SearchBar = ({ input, onChange }) => {
       />
       {showResults && (
         <ul className="search-results">
-          {filteredLocations.map((location, index) => {
-            return (
-              <li
-                key={index}
-                className={selectedIndex === index ? "selected" : ""}
-                onClick={() => handleSelect(location)}
-              >
-                {location.name}
-              </li>
-            );
-          })}
+          {filteredLocations.map((location, index) => (
+            <li
+              key={index}
+              className={selectedIndex === index ? "selected" : ""}
+              onClick={() => handleSelect(location)}
+            >
+              {location.name}
+            </li>
+          ))}
         </ul>
       )}
     </div>

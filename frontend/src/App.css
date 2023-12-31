@@ -6,6 +6,10 @@
     transform: translateX(-25px);
 
   }
+  body, html {
+    margin: 0;
+    padding: 0;
+}
   .SearchBar {
     margin: 0 10px; 
   }
@@ -13,7 +17,7 @@
   .Space {
     width: 100px; 
   }
-  body {
+  .App {
     background-image: url("./images/bg.png");
     background-repeat: no-repeat;
     background-size: cover;
