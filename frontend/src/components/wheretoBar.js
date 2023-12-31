@@ -2,16 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import './wheretoBar.css';
 
 import { locations } from './../index';
-
+import { rooms } from './../index'
 const MAX_RESULTS = 6;
 
-export const SearchBar = ({ input, onChange }) => {
+export const SearchBar = ({ input, onChange, isRoom, building }) => {
   const [searchInput, setSearchInput] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isTyping, setIsTyping] = useState(false);
+  const inputWidth = isRoom ? 200 : 300;
+  const points = isRoom ? rooms[building] : locations
   const searchContainerRef = useRef();
-
   const handleChange = (e) => {
     setSearchInput(e.target.value);
     setShowResults(true);
@@ -20,15 +21,15 @@ export const SearchBar = ({ input, onChange }) => {
   };
 
   const handleSelect = (location) => {
-    if (location.name === "" && searchInput === "") {
-      setShowResults(true);
-    } else {
-      setSearchInput(location.name);
-      onChange(location.name); 
-      setShowResults(false);
+    if (location.name !== "") {
+      const selectedValue = isRoom ? location.room : location.name;
+      setSearchInput(selectedValue);
+      onChange(selectedValue);
     }
+    setShowResults(false);
+    setSelectedIndex(-1);
   };
-
+  
   const handleKeyDown = (e) => {
     if (showResults && (e.keyCode === 9 || e.keyCode === 40)) {
       e.preventDefault();
@@ -59,34 +60,41 @@ export const SearchBar = ({ input, onChange }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [searchContainerRef]);
-
-  const filteredLocations = locations
+  let filteredLocations = points; 
+  if (points != null) {
+   filteredLocations = points
     .filter((location) => (
-      (searchInput === '' && showResults) ||
-      (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase()))
+      (searchInput === '' && showResults) || 
+      (!isRoom &&  (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase()))) ||
+      (isRoom &&  (searchInput !== '' && location.room.includes(searchInput)))
     ))
     .slice(0, MAX_RESULTS);
+  }
 
   return (
     <div className="search-container" ref={searchContainerRef}>
       <input
         type="text"
         placeholder={input}
+        value = {searchInput} 
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         onBlur={() => setIsTyping(false)}
-        value={searchInput}
+        style={{ width: `${inputWidth}px` }} 
         className={`search-input${isTyping ? ' typing' : ''}`}
       />
       {showResults && (
-        <ul className="search-results">
+        <ul className="search-results"
+        style={{ width: isRoom ? "205px" : "300px" }}
+        >
+          
           {filteredLocations.map((location, index) => (
             <li
               key={index}
               className={selectedIndex === index ? "selected" : ""}
               onClick={() => handleSelect(location)}
             >
-              {location.name}
+               {isRoom ? location.room : location.name}
             </li>
           ))}
         </ul>

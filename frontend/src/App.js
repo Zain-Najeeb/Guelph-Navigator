@@ -36,16 +36,15 @@ function App() {
     }
   };
   return (
-
       <div className="App">
         <div className="InteractionsContainor"> 
           <div className="LogoContainer"> 
             <img src={require('./images/guelphlogo.png')} alt ="Guelph-logo"/>
           </div>
           <div className="SearchBarsContainor">  
-            <SearchBar input={currentLocation} onChange={(value) => setCurrentLocation(value)}  />
+            <SearchBar input={currentLocation} onChange={(value) => setCurrentLocation(value)} isRoom={false}  />
             <div className="Space" /> 
-            <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} />
+            <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} isRoom={false} />
           </div>
           <div className="SquareButtonContainor">
             <SquareButton onClick={handleSearch} />
