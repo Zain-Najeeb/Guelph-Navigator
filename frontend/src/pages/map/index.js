@@ -29,9 +29,10 @@ export function GuelphMap() {
         <div className="Map">
           <UniversityMap />
         </div>
-        <div className="NavBars">
-          <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} isRoom={false} />
 
+        <div className="NavBars">
+
+          <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} isRoom={false} />
           {isValidBuilding && (
             <SearchBar 
                 input={roomNumber} 
