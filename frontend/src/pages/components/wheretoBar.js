@@ -19,9 +19,9 @@ export const SearchBar = ({ input, onChange, isRoom, building}) => {
     setShowResults(true);
     setIsTyping(true);
     onChange(e.target.value);
-    if (e.target.value in codes && !isRoom) {
-      setSearchInput(codes[e.target.value]);
-      onChange(codes[e.target.value]);
+    if (String(e.target.value).toLowerCase().trim() in codes && !isRoom) {
+      setSearchInput(codes[String(e.target.value).toLowerCase().trim()]);
+      onChange(codes[String(e.target.value).toLowerCase().trim()]);
     }
   };
 

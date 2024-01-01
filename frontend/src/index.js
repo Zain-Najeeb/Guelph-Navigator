@@ -34,7 +34,8 @@ export const rooms = {
         {room: "107"}, 
         {room: "108"}, 
         {room: "109"}
-    ]
+    ],
+    "the cannon" : []
 }
 
 export const cords = {

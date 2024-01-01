@@ -17,8 +17,10 @@ const validBuilding = (building) => {
 };
 
 export function UniversityMap() {
-  const [findLocation, setFindLocation] = useState('Search University of Guelph');
+  const [findLocation, setFindLocation] = useState('');
   const [roomNumber, setRoomNumber] = useState ('Room Number (Optional)')
+  const [sourceLocation, setSourceLocation] = useState("")
+  const [destinationRequest, setDestinationRequest ] = useState(false); 
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [Error, setIsError] = useState(false);
@@ -76,6 +78,7 @@ export function UniversityMap() {
           route.push(json); 
         }
         path(route); 
+        setDestinationRequest(true); 
       }
     };
   
@@ -138,17 +141,25 @@ export function UniversityMap() {
 
   const handleDirectionsButtonClick = () => {
     const lowerCaseFindLocation = findLocation.toLowerCase().trim();
+    let source = "the cannon"; 
+    if (destinationRequest && sourceLocation.trim().length !== 0) {
+      source = sourceLocation.toLowerCase().trim();
+    }
     if (!validBuilding(lowerCaseFindLocation)) {
       setIsError(true);
-      setSearchValue(`Can't find '${findLocation}' `);
-      setDirectionsValue(`Can't find '${findLocation}' `);
+      setSearchValue(`Can't find '${findLocation}'`);
+      setDirectionsValue(`Can't find '${findLocation}'`);
+    } else if (!validBuilding(source)) {
+      setIsError(true);
+      setSearchValue(`Can't find '${source}'`);
+      setDirectionsValue(`Can't find '${source}'`);
     } else {
       setIsError(false);
       setSearchValue("Search");
       setDirectionsValue(`Directions`);
       setSearchMarker({
         type: "defaultDirections",
-        start: "the cannon", 
+        start: source, 
         end: lowerCaseFindLocation, 
         building: lowerCaseFindLocation,
         name: findLocation,
@@ -163,8 +174,13 @@ export function UniversityMap() {
         <div ref={mapContainer} className="map" />
       </div>
       <div className="NavBars">
+        <div className='source'>
+          {destinationRequest && (
+           <SearchBar input={"Source (Default is the Cannon)"} onChange = {(value) => setSourceLocation(value)}  isRoom ={false}/>  
+          )}
+        </div>
         <div className="destination">
-          <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} isRoom={false} />
+          <SearchBar input={"Search University of Guelph"} onChange={(value) => setFindLocation(value)} isRoom={false} />
           <div className="icons">
             <button className="arrow-icon"
               onClick={() => handleDirectionsButtonClick()}
@@ -194,7 +210,7 @@ export function UniversityMap() {
           </div>
         </div>
         {validBuilding(findLocation.toLowerCase()) &&(
-          <SearchBar input={roomNumber} onChange={(value) => setRoomNumber(value)} isRoom={true} building = {findLocation.toLowerCase()}/>
+          <SearchBar input={"Room Number (Optional)"} onChange={(value) => setRoomNumber(value)} isRoom={true} building = {findLocation.toLowerCase()}/>
         )}
       </div>
     </div>
