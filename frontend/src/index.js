@@ -15,6 +15,15 @@ export const locations = [
     { name: "Summerlee Science Complex"}
   ];
 
+export const codes = {
+    "rozh": "Rozanski Hall",
+    "uc": "University Centre",
+    "mckn": "Mackinnon",
+    "ac": "Athletics Centre",
+    "macn": "Macnaughton",
+    "thrn": "Thornbrough",
+    "ssc": "Summerlee Science Complex"
+}
 export const rooms = {
     "rozanski hall": [
         {room: "101"}, 
@@ -27,6 +36,10 @@ export const rooms = {
         {room: "108"}, 
         {room: "109"}
     ]
+}
+
+export const cords = {
+    "rozanski hall": [ -80.22612741818148,43.53213609056374] 
 }
 
 const router = createBrowserRouter([

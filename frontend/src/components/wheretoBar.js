@@ -3,7 +3,7 @@ import './wheretoBar.css';
 
 import { locations } from './../index';
 import { rooms } from './../index'
-
+import {codes } from './../index'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 const validBuilding = (building) => {
@@ -12,7 +12,7 @@ const validBuilding = (building) => {
 
 const MAX_RESULTS = 6;
 
-export const SearchBar = ({ input, onChange, isRoom, building }) => {
+export const SearchBar = ({ input, onChange, isRoom, building, onSearch }) => {
   const [searchInput, setSearchInput] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -25,7 +25,7 @@ export const SearchBar = ({ input, onChange, isRoom, building }) => {
   const searchContainerRef = useRef();
   
   const handleSearchButtonClick = () => {
-    const lowerCaseFindLocation = searchInput.toLowerCase();
+    const lowerCaseFindLocation = searchInput.toLowerCase().trim();
     if (!validBuilding(lowerCaseFindLocation)) {
       setIsError(true); 
       setSearchValue(`Can't find '${searchInput}' `); 
@@ -33,7 +33,12 @@ export const SearchBar = ({ input, onChange, isRoom, building }) => {
     } else{
       setIsError(false); 
       setSearchValue("Search"); 
-      setDirectionsValue(`Directions`); 
+      setDirectionsValue(`Directions`);
+      onSearch({
+        type: "destinationUpdate", 
+        building: lowerCaseFindLocation, 
+        name: searchInput
+      }); 
     }
   }
   
@@ -45,6 +50,10 @@ export const SearchBar = ({ input, onChange, isRoom, building }) => {
     setIsError(false); 
     setSearchValue("Search");
     setDirectionsValue(`Directions`); 
+    if (e.target.value in codes && !isRoom) {
+      setSearchInput(codes[e.target.value]);
+      onChange(codes[e.target.value]);
+    }
   };
 
   const handleSelect = (location) => {
@@ -97,7 +106,7 @@ export const SearchBar = ({ input, onChange, isRoom, building }) => {
     filteredLocations = points
       .filter((location) => (
         (searchInput === '' && showResults) ||
-        (!isRoom && (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase()))) ||
+        (!isRoom && (searchInput !== '' && location.name.toLowerCase().includes(searchInput.toLowerCase().trim()))) ||
         (isRoom && (searchInput !== '' && location.room.includes(searchInput)))
       ))
       .slice(0, MAX_RESULTS);
