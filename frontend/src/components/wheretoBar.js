@@ -12,7 +12,7 @@ const validBuilding = (building) => {
 
 const MAX_RESULTS = 6;
 
-export const SearchBar = ({ input, onChange, isRoom, building, onSearch }) => {
+export const SearchBar = ({ input, onChange, isRoom, building, onSearch, dirBool}) => {
   const [searchInput, setSearchInput] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -30,6 +30,7 @@ export const SearchBar = ({ input, onChange, isRoom, building, onSearch }) => {
       setIsError(true); 
       setSearchValue(`Can't find '${searchInput}' `); 
       setDirectionsValue(`Can't find '${searchInput}' `); 
+      
     } else{
       setIsError(false); 
       setSearchValue("Search"); 
@@ -128,7 +129,7 @@ export const SearchBar = ({ input, onChange, isRoom, building, onSearch }) => {
           className={`search-input${isTyping ? ' typing' : ''}`}
         />
         
-        {!isRoom && (
+        {!dirBool && (
           <div>
             <button className="arrow-icon" style={{ marginLeft: "-30px" }}>
               <FontAwesomeIcon icon={faArrowRight} />
