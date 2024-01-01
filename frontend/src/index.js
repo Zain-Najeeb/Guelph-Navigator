@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import PhotoSphere from './pages/navigation/index'
 import GuelphMap from './pages/map';
 import { createBrowserRouter, RouterProvider, } from 'react-router-dom';
@@ -45,16 +44,12 @@ export const cords = {
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>
+        element: <GuelphMap/>
     },
     {
         path: "nav", 
         element: <PhotoSphere/>
     },
-    {
-        path: "map",
-        element: <GuelphMap/>
-    }
     
 ])
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import './wheretoBar.css';
 
-import { locations } from './../index';
-import { rooms } from './../index'
-import {codes } from './../index'
+import { locations } from './../../index';
+import { rooms } from './../../index'
+import {codes } from './../../index'
 const MAX_RESULTS = 6;
 
 export const SearchBar = ({ input, onChange, isRoom, building}) => {

@@ -6,7 +6,7 @@ import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import './map.css';
 import { cords } from './../../index';
-import { SearchBar } from './../../components/wheretoBar';
+import { SearchBar } from './wheretoBar';
 import {getFastestPathPoints} from '../connections.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faArrowRight } from '@fortawesome/free-solid-svg-icons';
