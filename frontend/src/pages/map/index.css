@@ -1,0 +1,24 @@
+/* index.css */
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Set a specific height for the wrapper, adjust as needed */
+  }
+  
+  .map-container {
+    flex: 1;
+    position: relative;
+  }
+  
+  .Map {
+    position: relative;
+  }
+  
+  .NavBars {
+    display: flex; 
+    position: absolute;
+    top: 10px; 
+    left: 10px;
+    z-index: 1; 
+  }

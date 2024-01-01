@@ -1,5 +1,6 @@
 .search-container {
     position: relative;
+    margin-right: 15px;
   }
   
   .search-results {
@@ -11,7 +12,7 @@
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     list-style: none;
-    width: 385px;
+    width: 235px;
     border-radius: 10px;
     overflow: hidden;
     z-index: 10;
@@ -32,7 +33,6 @@
   }
   
   .search-input {
-    width: 375px; 
     border: none;
     background-color: #f5f5f5;
     padding: 10px;
@@ -43,4 +43,64 @@
   
   .search-results li.selected {
     background-color: #f2f2f2;
+  }.search-input-container {
+    display: flex;
+    align-items: center;
+  }
+  .arrow-icon {
+    background-color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative; /* Add position relative to the arrow-icon */
+}
+
+.search-icon-tooltip {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  background-color: #333;
+  color: #fff; 
+  padding: 5px;
+  border-radius: 5px;
+  display: none;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  overflow: hidden;    /* Hide overflowing content */
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+}
+
+.arrow-icon:hover .search-icon-tooltip {
+    display: block;
+    z-index: 12;
+}
+
+
+.tooltip {
+    position: absolute;
+    bottom: -25px;
+    left: 0%;
+    background-color: #333;
+    color: #fff; 
+    padding: 5px;
+    border-radius: 5px;
+    display: none;
+    white-space: nowrap; 
+    overflow: hidden;   
+    text-overflow: ellipsis; 
+  }
+  
+ .Error {
+  position: absolute;
+  bottom: -25px;
+  left: 0%;
+  color: #fff; 
+  padding: 5px;
+  border-radius: 5px;
+  display: none;
+  z-index: 13;
+ } 
+  .arrow-icon:hover .tooltip {
+    display: block;
+    z-index: 12;
   }

@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import SearchBar from './components/wheretoBar';
 import SquareButton from './components/squareButton';
-import {locations} from './index'; 
-
+import { locations } from './index';
 const handleButtoPress = (currentLocation, findLocation) => {
   const lowerCaseCurrentLocation = currentLocation.toLowerCase();
   const lowerCaseFindLocation = findLocation.toLowerCase();
@@ -31,30 +30,31 @@ function App() {
     const handler = handleButtoPress(currentLocation, findLocation); 
     if (handler === "valid") {
       setShowError(false); 
+      window.location.href = '/nav'
     } else {
-      setShowError(true) ///needs to be changed later too lazy rn
+      setShowError(true) 
     }
   };
   return (
-    <div className="App">
-      <div className="InteractionsContainor"> 
-        <div className="LogoContainer"> 
-          <img src={require('./images/guelphlogo.png')} alt ="Guelph-logo"/>
-        </div>
-        <div className="SearchBarsContainor">  
-          <SearchBar input={currentLocation} onChange={(value) => setCurrentLocation(value)}  />
-          <div className="Space" /> 
-          <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} />
-        </div>
-        <div className="SquareButtonContainor">
-          <SquareButton onClick={handleSearch} />
-        </div>
-        <div className = "ErrorMessage"> 
-          {showError && <p className="ErrorText"> {currentLocation} {findLocation} </p>}
-        </div>
-      </div> 
+      <div className="App">
+        <div className="InteractionsContainor"> 
+          <div className="LogoContainer"> 
+            <img src={require('./images/guelphlogo.png')} alt ="Guelph-logo"/>
+          </div>
+          <div className="SearchBarsContainor">  
+            <SearchBar input={currentLocation} onChange={(value) => setCurrentLocation(value)} isRoom={false}  />
+            <div className="Space" /> 
+            <SearchBar input={findLocation} onChange={(value) => setFindLocation(value)} isRoom={false} />
+          </div>
+          <div className="SquareButtonContainor">
+            <SquareButton onClick={handleSearch} />
+          </div>
+          <div className = "ErrorMessage"> 
+            {showError && <p className="ErrorText"> {currentLocation} {findLocation} </p>}
+          </div>
+        </div> 
 
-    </div>
+      </div>
   );
 }
 
