@@ -4,7 +4,7 @@ using backend.nodeProperties;
 using Neo4j.Driver;
 
 namespace backend.Utilities; 
-
+using Newtonsoft.Json.Linq;
 public static class Neo4jResultUtils {
 	
 	/// <summary>
@@ -26,8 +26,29 @@ public static class Neo4jResultUtils {
 				dict["connectedSpots"].As<List<Dictionary<string, object>>>().Select(SpotConnectionFromDictionary).ToArray() : 
 				Array.Empty<SpotConnection>());
 	}
-
 	static SpotConnection SpotConnectionFromDictionary(Dictionary<string, object> dict) {
 		return new SpotConnection(SpotFromDictionary(dict["endSpot"].As<Dictionary<string, object>>()), dict["weight"].As<int>());
 	}
+
+	public static string RouteJson(IEnumerable<Dictionary<string,object>> path) {
+		JObject jsonObject = new JObject();
+		int length = 0; 
+		var routeList = new List<JObject>();
+
+		foreach (var dictionary in path) {
+			var routeObject = new JObject(); 
+			foreach (var kvp in dictionary) {
+				routeObject[kvp.Key] = JToken.FromObject(kvp.Value);
+			}
+			routeList.Add(routeObject);
+			length++; 
+		}
+
+		jsonObject["length"] = length; 
+		jsonObject["route"] = new JArray(routeList); 
+		string jsonString = jsonObject.ToString();
+		return jsonString; 
+	}
+	
+	
 }

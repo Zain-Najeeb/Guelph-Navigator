@@ -10,9 +10,10 @@ public class Program {
 	public static async Task Main(string[] args) {
 		_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("ZainNajeeb", "nadeem123"));
 		var builder = WebApplication.CreateBuilder(args);
-
+		
 		// Add services to the container.
-
+		// SpotController test = new SpotController(null, _driver);
+		// await test.GetFastestPathPoints("the cannon", "rozanski hall");
 		builder.Services.AddSingleton<IDriver>(_driver);
 		builder.Services.AddCors(options => {
 			options.AddPolicy("AllowSpecificOrigin",
