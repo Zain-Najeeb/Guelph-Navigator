@@ -1,59 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 import './wheretoBar.css';
 
-import { locations } from './../index';
-import { rooms } from './../index'
-import {codes } from './../index'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-const validBuilding = (building) => {
-  return Object.keys(rooms).includes(building);
-};
-
+import { locations } from './../../index';
+import { rooms } from './../../index'
+import {codes } from './../../index'
 const MAX_RESULTS = 6;
 
-export const SearchBar = ({ input, onChange, isRoom, building, onSearch, dirBool}) => {
+export const SearchBar = ({ input, onChange, isRoom, building}) => {
   const [searchInput, setSearchInput] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isTyping, setIsTyping] = useState(false);
-  const [Error, setIsError] = useState(false); 
-  const [searchValue, setSearchValue] = useState ("Search");
-  const [directionsValue, setDirectionsValue] = useState ("Directions"); 
   const inputWidth = isRoom ? 200 : 300;
   const points = isRoom ? rooms[building] : locations
   const searchContainerRef = useRef();
-  
-  const handleSearchButtonClick = () => {
-    const lowerCaseFindLocation = searchInput.toLowerCase().trim();
-    if (!validBuilding(lowerCaseFindLocation)) {
-      setIsError(true); 
-      setSearchValue(`Can't find '${searchInput}' `); 
-      setDirectionsValue(`Can't find '${searchInput}' `); 
-      
-    } else{
-      setIsError(false); 
-      setSearchValue("Search"); 
-      setDirectionsValue(`Directions`);
-      onSearch({
-        type: "destinationUpdate", 
-        building: lowerCaseFindLocation, 
-        name: searchInput
-      }); 
-    }
-  }
-  
   const handleChange = (e) => {
     setSearchInput(e.target.value);
     setShowResults(true);
     setIsTyping(true);
     onChange(e.target.value);
-    setIsError(false); 
-    setSearchValue("Search");
-    setDirectionsValue(`Directions`); 
-    if (e.target.value in codes && !isRoom) {
-      setSearchInput(codes[e.target.value]);
-      onChange(codes[e.target.value]);
+    if (String(e.target.value).toLowerCase().trim() in codes && !isRoom) {
+      setSearchInput(codes[String(e.target.value).toLowerCase().trim()]);
+      onChange(codes[String(e.target.value).toLowerCase().trim()]);
     }
   };
 
@@ -61,12 +29,8 @@ export const SearchBar = ({ input, onChange, isRoom, building, onSearch, dirBool
     if (location.name !== "") {
       const selectedValue = isRoom ? location.room : location.name;
       setSearchInput(selectedValue);
-      setIsError(false); 
       onChange(selectedValue);
-      setSearchValue("Search");
-      setDirectionsValue(`Directions`); 
     }
-
     setShowResults(false);
     setSelectedIndex(-1);
   };
@@ -129,33 +93,8 @@ export const SearchBar = ({ input, onChange, isRoom, building, onSearch, dirBool
           className={`search-input${isTyping ? ' typing' : ''}`}
         />
         
-        {!dirBool && (
-          <div>
-            <button className="arrow-icon" style={{ marginLeft: "-30px" }}>
-              <FontAwesomeIcon icon={faArrowRight} />
-              <div className="tooltip"
-              style ={{
-                color: Error ? "red" : "white"
-              }}
-              >{directionsValue}</div>
-            </button>
-            <button
-              className="arrow-icon"
-              style={{ 
-                marginLeft: "-50px", 
-              }}
-              onClick={() => handleSearchButtonClick()} >
-              <FontAwesomeIcon icon={faSearch} />
-              <div className="search-icon-tooltip"
-              style ={{
-                color: Error ? "red" : "white"
-              }}
-              > 
-              
-              {searchValue}</div>
-          </button>
-          </div>
-        )}
+        {/* {!dirBool && (
+        )} */}
       </div>
       {showResults && (
         <ul className="search-results"

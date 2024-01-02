@@ -10,8 +10,8 @@ AWS.config.update({
     region: 'ca-central-1', 
     credentials: new AWS.Credentials(aKey, pKey), 
 })
-export const getSpot= () => {
- axios.get('http://localhost:5216/Spot/GetSpot', { params: { id: 1 } })
+export const getSpot = async () => {
+ await axios.get('http://localhost:5216/Spot/GetSpot', { params: { id: 1 } })
  .then(response => {
   console.log(response.data);
  })
@@ -19,4 +19,14 @@ export const getSpot= () => {
    console.error(error);
  });
 }
+export const getFastestPathPoints = async (start, end) => {
+  try {
+    const response = await axios.get('http://localhost:5216/Spot/GetFastestPathPoints', { params: { start, end } });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 export const AWSinstance = new AWS.S3(); 
