@@ -1,4 +1,4 @@
-﻿namespace backend.nodeProperties; 
+﻿namespace backend.Models; 
 
 public record Building(string Id, string Name, string Abbreviation, Level[] Levels);
 

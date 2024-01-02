@@ -1,4 +1,4 @@
-﻿using backend.nodeProperties;
+﻿using backend.Models;
 using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
@@ -8,10 +8,10 @@ namespace backend.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class BuildingController : ControllerBase {
-	private readonly ILogger<WeatherForecastController>? logger;
+	private readonly ILogger<BuildingController>? logger;
 	private readonly IDriver driver;
 
-	public BuildingController(ILogger<WeatherForecastController>? logger, IDriver driver) {
+	public BuildingController(ILogger<BuildingController>? logger, IDriver driver) {
 		this.logger = logger;
 		this.driver = driver;
 	}

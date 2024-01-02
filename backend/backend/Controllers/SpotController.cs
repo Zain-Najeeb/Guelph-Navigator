@@ -1,4 +1,4 @@
-﻿using backend.nodeProperties;
+﻿using backend.Models;
 using Neo4j.Driver;
 using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +8,10 @@ namespace backend.Controllers;
 [ApiController]
 [Route("[controller]")]
 public class SpotController : ControllerBase {
-	private readonly ILogger<WeatherForecastController>? logger;
+	private readonly ILogger<SpotController>? logger;
 	private readonly IDriver driver;
 
-	public SpotController(ILogger<WeatherForecastController>? logger, IDriver driver) {
+	public SpotController(ILogger<SpotController>? logger, IDriver driver) {
 		this.logger = logger;
 		this.driver = driver;
 	}

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using backend.nodeProperties;
+using backend.Models;
 using Neo4j.Driver;
 
 namespace backend.Utilities; 

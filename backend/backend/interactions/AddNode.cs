@@ -1,6 +1,7 @@
-﻿using Neo4j.Driver;
+﻿using backend.Models;
+using Neo4j.Driver;
 using Newtonsoft.Json;
-using backend.nodeProperties;
+
 namespace backend.interactions;
 
 public class AddNode {
