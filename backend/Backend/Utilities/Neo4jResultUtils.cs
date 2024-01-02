@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using backend.Models;
+﻿using GuelphNavigator.Backend.Models;
 using Neo4j.Driver;
-
-namespace backend.Utilities; 
 using Newtonsoft.Json.Linq;
+
+namespace GuelphNavigator.Backend.Utilities; 
+
 public static class Neo4jResultUtils {
 	
 	/// <summary>

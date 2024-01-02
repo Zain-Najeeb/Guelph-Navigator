@@ -1,7 +1,6 @@
 ﻿using Neo4j.Driver;
-using Newtonsoft.Json;
 
-namespace backend.interactions;
+namespace GuelphNavigator.Backend.interactions;
 
 public class DeleteNode {
 	public static async Task delete(IDriver _driver, string name  ) {

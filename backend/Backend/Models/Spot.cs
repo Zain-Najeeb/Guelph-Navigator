@@ -1,4 +1,4 @@
-﻿namespace backend.Models;
+﻿namespace GuelphNavigator.Backend.Models;
 
 public record Spot(string Id, string Name, string PhotosphereUrl, int PositionX, int PositionY, SpotConnection[] connections);
 

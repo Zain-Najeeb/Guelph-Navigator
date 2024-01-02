@@ -1,9 +1,6 @@
-
-using backend.Controllers;
 using Neo4j.Driver;
-using Microsoft.Extensions.Logging.Abstractions;
 
-namespace backend;
+namespace GuelphNavigator.Backend;
 
 public class Program {
 	private static IDriver _driver;

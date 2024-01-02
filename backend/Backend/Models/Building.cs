@@ -1,4 +1,4 @@
-﻿namespace backend.Models; 
+﻿namespace GuelphNavigator.Backend.Models; 
 
 public record Building(string Id, string Name, string Abbreviation, Level[] Levels);
 

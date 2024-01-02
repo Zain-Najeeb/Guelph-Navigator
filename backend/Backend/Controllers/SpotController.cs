@@ -1,9 +1,9 @@
-﻿using backend.Models;
-using Neo4j.Driver;
-using backend.Utilities;
+﻿using GuelphNavigator.Backend.Models;
+using GuelphNavigator.Backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Neo4j.Driver;
 
-namespace backend.Controllers; 
+namespace GuelphNavigator.Backend.Controllers; 
 
 [ApiController]
 [Route("[controller]")]
