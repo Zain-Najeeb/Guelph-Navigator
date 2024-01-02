@@ -8,7 +8,7 @@ namespace backend;
 public class Program {
 	private static IDriver _driver;
 	public static async Task Main(string[] args) {
-		_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("ZainNajeeb", "nadeem123"));
+		_driver = GraphDatabase.Driver("bolt://ec2-18-216-42-153.us-east-2.compute.amazonaws.com:7687", AuthTokens.None);
 		var builder = WebApplication.CreateBuilder(args);
 		
 		// Add services to the container.
