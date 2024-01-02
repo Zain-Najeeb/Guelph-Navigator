@@ -10,6 +10,9 @@ AWS.config.update({
     region: 'ca-central-1', 
     credentials: new AWS.Credentials(aKey, pKey), 
 })
+export const getBuildings = async () => {
+  
+}
 export const getSpot = async () => {
  await axios.get('http://localhost:5216/Spot/GetSpot', { params: { id: 1 } })
  .then(response => {

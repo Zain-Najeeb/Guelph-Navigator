@@ -21,13 +21,17 @@ public static class Neo4jResultUtils {
 	}
 
 	public static Spot SpotFromDictionary(Dictionary<string, object> dict) {
-		return new Spot(dict["id"].As<int>(), dict["name"].As<string>(), dict["url"].As<string>(), 0, 0,
+		return new Spot(dict["id"].As<string>(), dict["name"].As<string>(), dict["url"].As<string>(), 0, 0,
 			dict.ContainsKey("connectedSpots") ? 
 				dict["connectedSpots"].As<List<Dictionary<string, object>>>().Select(SpotConnectionFromDictionary).ToArray() : 
 				Array.Empty<SpotConnection>());
 	}
 	static SpotConnection SpotConnectionFromDictionary(Dictionary<string, object> dict) {
 		return new SpotConnection(SpotFromDictionary(dict["endSpot"].As<Dictionary<string, object>>()), dict["weight"].As<int>());
+	}
+
+	public static Building BuildingFromDictionary(Dictionary<string, object> dict) {
+		return new Building(dict["id"].As<string>(), dict["name"].As<string>(), dict["abbreviation"].As<string>(), Array.Empty<Level>());
 	}
 
 	public static string RouteJson(IEnumerable<Dictionary<string,object>> path) {

@@ -18,14 +18,14 @@ public class SpotController : ControllerBase {
 
 	[HttpGet]
 	[Route("GetSpot")]
-	public async Task<IActionResult> Get([FromQuery] int id) {
+	public async Task<IActionResult> Get([FromQuery] string id) {
 		await using var session = driver.AsyncSession();
 
 		var spot = await session.ExecuteReadAsync(async tx => {
 			var result = await (await tx.RunAsync(@"
-				MATCH (spot:SPOT) WHERE id(spot) = $id
+				MATCH (spot:SPOT) WHERE elementId(spot) = $id
 				OPTIONAL MATCH (spot)-[r]->(relatedSpot:SPOT)
-				WITH spot{.*, id:ID(spot)}, COLLECT(r{.*, endSpot:relatedSpot{.*, id:ID(relatedSpot)}}) AS relationships
+				WITH spot{.*, id:elementId(spot)}, COLLECT(r{.*, endSpot:relatedSpot{.*, id:elementId(relatedSpot)}}) AS relationships
 				RETURN spot{.*, connectedSpots:relationships} AS result", new { id })).ToListAsync();
 			return result.SelectNamed("result").Select(Neo4jResultUtils.SpotFromDictionary).FirstOrDefault();
 		});
@@ -47,7 +47,7 @@ public class SpotController : ControllerBase {
 		    WITH nodes(p) AS spots
 		    LIMIT 1
 		    UNWIND spots AS spot
-		    RETURN spot{.*, id:ID(spot)} AS result", new { start, end })).ToListAsync();
+		    RETURN spot{.*, id:elementId(spot)} AS result", new { start, end })).ToListAsync();
 			return Neo4jResultUtils.RouteJson(result.SelectNamed("result"));
 		});
 		if (spot == null) {
