@@ -1,7 +1,7 @@
 ﻿using backend.nodeProperties;
-using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
 using backend.Utilities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers; 
 
@@ -18,7 +18,9 @@ public class SpotController : ControllerBase {
 
 	[HttpGet]
 	[Route("GetSpot")]
-	public async Task<IActionResult> Get([FromQuery] string id) {
+	[ProducesResponseType(typeof(Spot), StatusCodes.Status200OK)]
+	[ProducesResponseType(StatusCodes.Status404NotFound)]
+	public async Task<ActionResult<Spot>> Get([FromQuery] string id) {
 		await using var session = driver.AsyncSession();
 
 		var spot = await session.ExecuteReadAsync(async tx => {

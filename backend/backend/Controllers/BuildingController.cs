@@ -1,4 +1,5 @@
-﻿using backend.Utilities;
+﻿using backend.nodeProperties;
+using backend.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Neo4j.Driver;
 
@@ -17,16 +18,17 @@ public class BuildingController : ControllerBase {
 
 	[HttpGet]
 	[Route("GetBuildings")]
-	public async Task<IActionResult> Get() {
+	[ProducesResponseType(typeof(IEnumerable<Building>), StatusCodes.Status200OK)]
+	public async Task<ActionResult<IEnumerable<Building>>> Get() {
 		await using var session = driver.AsyncSession();
 
-		var spot = await session.ExecuteReadAsync(async tx => {
+		var buildings = await session.ExecuteReadAsync(async tx => {
 			var result = await (await tx.RunAsync(@"
 				MATCH (building:BUILDING)
 				RETURN building{.*, id:elementId(building)}")).ToListAsync();
 			return result.SelectNamed("building").Select(Neo4jResultUtils.BuildingFromDictionary).ToList();
 		});
-		return Ok(spot);
+		return Ok(buildings);
 	}
 }
 
