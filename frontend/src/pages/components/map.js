@@ -111,8 +111,6 @@ export function UniversityMap() {
         'line-width': 2,
       },
     });
-
-    // Fit the map to the bounds of the route
     const bounds = route.reduce((bounds, coord) => {
       return bounds.extend([coord.lng, coord.lat]);
     }, new maptilersdk.LngLatBounds(route[0], route[0]));
@@ -209,8 +207,8 @@ export function UniversityMap() {
             </button>
           </div>
         </div>
-        {validBuilding(findLocation.toLowerCase()) &&(
-          <SearchBar input={"Room Number (Optional)"} onChange={(value) => setRoomNumber(value)} isRoom={true} building = {findLocation.toLowerCase()}/>
+        {validBuilding(findLocation.toLowerCase().trim()) &&(
+          <SearchBar input={"Room Number (Optional)"} onChange={(value) => setRoomNumber(value)} isRoom={true} building = {findLocation.toLowerCase().trim()}/>
         )}
       </div>
     </div>
