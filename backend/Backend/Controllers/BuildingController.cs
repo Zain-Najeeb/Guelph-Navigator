@@ -30,5 +30,6 @@ public class BuildingController : ControllerBase {
 		});
 		return Ok(buildings);
 	}
+	
 }
 

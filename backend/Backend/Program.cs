@@ -1,3 +1,4 @@
+using GuelphNavigator.Backend.Controllers;
 using Neo4j.Driver;
 
 namespace GuelphNavigator.Backend;
@@ -9,8 +10,6 @@ public class Program {
 		var builder = WebApplication.CreateBuilder(args);
 		
 		// Add services to the container.
-		// SpotController test = new SpotController(null, _driver);
-		// await test.GetFastestPathPoints("the cannon", "rozanski hall");
 		builder.Services.AddSingleton<IDriver>(_driver);
 		builder.Services.AddCors(options => {
 			options.AddPolicy("AllowSpecificOrigin",
