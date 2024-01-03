@@ -36,11 +36,14 @@ export const rooms = {
         {room: "108"}, 
         {room: "109"}
     ],
-    "the cannon" : []
+    "the cannon" : [],
+    "university centre": []
 }
 
 export const cords = {
-    "rozanski hall": [ -80.22612741818148,43.53213609056374] 
+    //lng lat
+    "rozanski hall": [ -80.22612741818148,43.53213609056374], 
+    "university centre": [-80.22655355526223,43.53090087715142]
 }
 
 export const lowerToUpper = {

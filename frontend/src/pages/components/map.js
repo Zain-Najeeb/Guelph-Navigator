@@ -1,7 +1,7 @@
 // UniversityMap.js
 // To do: remove past markers (no clue how)
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import './map.css';
@@ -35,9 +35,12 @@ export function UniversityMap() {
     name: "none",
     room: "none"
   });
-
+  const removeAllMarkers = () => {
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
+  };
   maptilersdk.config.apiKey = '38tybbC1tUbWJURuEMad';
-
+  const markersRef = useRef([]);
   useEffect(() => {
     if (map.current) return;
     map.current = new maptilersdk.Map({
@@ -48,44 +51,17 @@ export function UniversityMap() {
       pitch: initialPitch
     });
 
-    new maptilersdk.Marker({ color: "#FF0000" })
+    const marked = new maptilersdk.Marker({ color: "#0000FF" })
       .setLngLat([-80.22684968744309, 43.53139722856412])
       .addTo(map.current);
+      markersRef.current.push(marked);
   }, [guelph.lat, guelph.lng, zoom, initialPitch]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (searchMarker.type === "destinationUpdate") {
-        const marker = new maptilersdk.Marker({ color: "#FF0000" })
-          .setLngLat(cords[searchMarker.building])
-          .addTo(map.current);
-        const popup = new maptilersdk.Popup().setText(`${searchMarker.name}`);
-        marker.setPopup(popup);
-        map.current.flyTo({
-          center: cords[searchMarker.building],
-          zoom: 17,
-          pitch: initialPitch,
-        });
-      }
-      if (searchMarker.type === "defaultDirections") {
-        const response = await getFastestPathPoints(lowerToUpper[searchMarker.start], lowerToUpper[searchMarker.end]);
-        let route = []
-        for (let i = 0; i < response.length; i++) {
-          let json = {
-            lng: response.route[i].lng,
-            lat: response.route[i].lat
-          }
-          route.push(json); 
-        }
-        path(route); 
-        setDestinationRequest(true); 
-      }
-    };
-  
-    fetchData();
-  }, [searchMarker]);
-
-  const path = (route) => {
+  const path = useCallback((route, length) => {
+    removeAllMarkers(); 
+    if (map.current.getSource('route')) {
+      map.current.removeLayer('route');
+      map.current.removeSource('route');
+    }  
     map.current.addSource('route', {
       type: 'geojson',
       data: {
@@ -116,8 +92,49 @@ export function UniversityMap() {
     }, new maptilersdk.LngLatBounds(route[0], route[0]));
 
     map.current.fitBounds(bounds, { padding: 20 });
-  }
 
+    const end = new maptilersdk.Marker({ color: "#FF0000" })
+      .setLngLat([route[length-1].lng, route[length-1].lat])
+      .addTo(map.current);
+    markersRef.current.push(end)
+    const start = new maptilersdk.Marker({ color: "#0000FF" })
+      .setLngLat([route[0].lng, route[0].lat])
+      .addTo(map.current);
+    markersRef.current.push(start)
+  } , []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (searchMarker.type === "destinationUpdate") {
+        const marker = new maptilersdk.Marker({ color: "#FF0000" })
+          .setLngLat(cords[searchMarker.building])
+          .addTo(map.current);
+        const popup = new maptilersdk.Popup().setText(`${searchMarker.name}`);
+        marker.setPopup(popup);
+        map.current.flyTo({
+          center: cords[searchMarker.building],
+          zoom: 17,
+          pitch: initialPitch,
+        });
+        markersRef.current.push(marker)
+      }
+      if (searchMarker.type === "defaultDirections") {
+        const response = await getFastestPathPoints(lowerToUpper[searchMarker.start], lowerToUpper[searchMarker.end]);
+        let route = []
+        for (let i = 0; i < response.length; i++) {
+          let json = {
+            lng: response.route[i].lng,
+            lat: response.route[i].lat
+          }
+          route.push(json); 
+        }
+        path(route, response.length); 
+        setDestinationRequest(true); 
+      }
+    };
+  
+    fetchData();
+  }, [searchMarker, path]);
   const handleSearchButtonClick = () => {
     const lowerCaseFindLocation = findLocation.toLowerCase().trim();
     if (!validBuilding(lowerCaseFindLocation)) {
@@ -135,7 +152,7 @@ export function UniversityMap() {
         room: "none"
       });
     }
-  };
+  }
 
   const handleDirectionsButtonClick = () => {
     const lowerCaseFindLocation = findLocation.toLowerCase().trim();
