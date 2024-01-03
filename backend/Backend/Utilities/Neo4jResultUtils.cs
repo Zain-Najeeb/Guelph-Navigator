@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using backend.nodeProperties;
+﻿using GuelphNavigator.Backend.Models;
 using Neo4j.Driver;
-
-namespace backend.Utilities; 
 using Newtonsoft.Json.Linq;
+
+namespace GuelphNavigator.Backend.Utilities; 
+
 public static class Neo4jResultUtils {
 	
 	/// <summary>
@@ -21,13 +20,17 @@ public static class Neo4jResultUtils {
 	}
 
 	public static Spot SpotFromDictionary(Dictionary<string, object> dict) {
-		return new Spot(dict["id"].As<int>(), dict["name"].As<string>(), dict["url"].As<string>(), 0, 0,
+		return new Spot(dict["id"].As<string>(), dict["name"].As<string>(), dict["url"].As<string>(), 0, 0,
 			dict.ContainsKey("connectedSpots") ? 
 				dict["connectedSpots"].As<List<Dictionary<string, object>>>().Select(SpotConnectionFromDictionary).ToArray() : 
 				Array.Empty<SpotConnection>());
 	}
 	static SpotConnection SpotConnectionFromDictionary(Dictionary<string, object> dict) {
 		return new SpotConnection(SpotFromDictionary(dict["endSpot"].As<Dictionary<string, object>>()), dict["weight"].As<int>());
+	}
+
+	public static Building BuildingFromDictionary(Dictionary<string, object> dict) {
+		return new Building(dict["id"].As<string>(), dict["name"].As<string>(), dict["abbreviation"].As<string>(), Array.Empty<Level>());
 	}
 
 	public static string RouteJson(IEnumerable<Dictionary<string,object>> path) {

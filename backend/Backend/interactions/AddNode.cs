@@ -1,7 +1,7 @@
-﻿using Neo4j.Driver;
-using Newtonsoft.Json;
-using backend.nodeProperties;
-namespace backend.interactions;
+﻿using GuelphNavigator.Backend.Models;
+using Neo4j.Driver;
+
+namespace GuelphNavigator.Backend.interactions;
 
 public class AddNode {
 	

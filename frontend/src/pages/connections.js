@@ -10,14 +10,22 @@ AWS.config.update({
     region: 'ca-central-1', 
     credentials: new AWS.Credentials(aKey, pKey), 
 })
+export const getBuildings = async () => {
+  try {
+    const response = await axios.get('http://localhost:5216/Building/GetBuildings');
+    return response.data;
+  } catch(error) {
+    throw error;
+  }
+}
 export const getSpot = async () => {
- await axios.get('http://localhost:5216/Spot/GetSpot', { params: { id: 1 } })
- .then(response => {
-  console.log(response.data);
- })
- .catch(error => {
-   console.error(error);
- });
+  await axios.get('http://localhost:5216/Spot/GetSpot', { params: { id: 1 } })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 export const getFastestPathPoints = async (start, end) => {
   try {

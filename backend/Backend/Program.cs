@@ -1,14 +1,11 @@
-
-using backend.Controllers;
 using Neo4j.Driver;
-using Microsoft.Extensions.Logging.Abstractions;
 
-namespace backend;
+namespace GuelphNavigator.Backend;
 
 public class Program {
 	private static IDriver _driver;
 	public static async Task Main(string[] args) {
-		_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("ZainNajeeb", "nadeem123"));
+		_driver = GraphDatabase.Driver("bolt://ec2-18-216-42-153.us-east-2.compute.amazonaws.com:7687", AuthTokens.None);
 		var builder = WebApplication.CreateBuilder(args);
 		
 		// Add services to the container.
@@ -19,7 +16,8 @@ public class Program {
 			options.AddPolicy("AllowSpecificOrigin",
 				builder => builder.WithOrigins("http://localhost:3000")
 					.AllowAnyHeader()
-					.AllowAnyMethod());
+					.AllowAnyMethod()
+					.AllowAnyOrigin());
 		});
 		
 		builder.Services.AddControllers();
@@ -28,6 +26,8 @@ public class Program {
 		builder.Services.AddSwaggerGen();
 
 		var app = builder.Build();
+		
+		
 		app.UseCors("AllowSpecificOrigin");
 		// Configure the HTTP request pipeline.
 		if (app.Environment.IsDevelopment()) {

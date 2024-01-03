@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import PhotoSphere from './pages/navigation/index'
 import GuelphMap from './pages/map';
+import Testing from './pages/testing';
 import { createBrowserRouter, RouterProvider, } from 'react-router-dom';
 
 export const locations = [
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
     {
         path: "nav", 
         element: <PhotoSphere/>
+    },
+    {
+        path: "testing", 
+        element: <Testing/>
     },
     
 ])
