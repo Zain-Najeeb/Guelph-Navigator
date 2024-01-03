@@ -43,6 +43,34 @@ export const cords = {
     "rozanski hall": [ -80.22612741818148,43.53213609056374] 
 }
 
+export const lowerToUpper = {
+    "rozanski hall": "Rozanski Hall",
+    "thornbrough building": "Thornbrough Building",
+    "alexander hall": "Alexander Hall",
+    "crop science building": "Crop Science Building",
+    "rutherford family conservatory": "Rutherford Family Conservatory",
+    "powell building": "Powell Building",
+    "johnston hall": "Johnston Hall",
+    "landscape architecture": "Landscape Architecture",
+    "mackinnon building": "MacKinnon Building",
+    "macnaughton building": "MacNaughton Building",
+    "macdonald hall": "Macdonald Hall",
+    "macdonald institute": "Macdonald Institute",
+    "macdonald steward hall": "Macdonald Steward Hall",
+    "massey hall": "Massey Hall",
+    "mclaughlin library": "McLaughlin Library",
+    "reynolds building": "Reynolds Building",
+    "richards building": "Richards Building",
+    "summerlee science complex": "Summerlee Science Complex",
+    "war memorial hall": "War Memorial Hall",
+    "zavitz hall": "Zavitz Hall",
+    "athletics centre": "Athletics Centre",
+    "university centre": "University Centre",
+    "maclachlan building": "MacLachlan Building",
+    "the cannon": "The Cannon"
+};
+
+
 const router = createBrowserRouter([
     {
         path: "/",

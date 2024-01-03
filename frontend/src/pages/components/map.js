@@ -11,7 +11,7 @@ import { getFastestPathPoints } from '../connections.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { rooms } from './../../index';
-
+import {lowerToUpper} from './../../index'
 const validBuilding = (building) => {
   return Object.keys(rooms).includes(building);
 };
@@ -68,7 +68,7 @@ export function UniversityMap() {
         });
       }
       if (searchMarker.type === "defaultDirections") {
-        const response = await getFastestPathPoints(searchMarker.start, searchMarker.end);
+        const response = await getFastestPathPoints(lowerToUpper[searchMarker.start], lowerToUpper[searchMarker.end]);
         let route = []
         for (let i = 0; i < response.length; i++) {
           let json = {

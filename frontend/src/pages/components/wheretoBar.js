@@ -92,9 +92,6 @@ export const SearchBar = ({ input, onChange, isRoom, building}) => {
           }}
           className={`search-input${isTyping ? ' typing' : ''}`}
         />
-        
-        {/* {!dirBool && (
-        )} */}
       </div>
       {showResults && (
         <ul className="search-results"

@@ -29,12 +29,11 @@ export const getSpot = async () => {
 }
 export const getFastestPathPoints = async (start, end) => {
   try {
-    const response = await axios.get('http://localhost:5216/Spot/GetFastestPathPoints', { params: { start, end } });
+    const response = await axios.get('https://localhost:7266/Spot/GetFastestPathPoints', { params: { start, end } });
     return response.data;
   } catch (error) {
     throw error;
   }
 }
-
 
 export const AWSinstance = new AWS.S3(); 
